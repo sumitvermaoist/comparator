@@ -65,7 +65,17 @@ public class BillFileComparator {
         String[] headerRow = {"NEW_CONSUMER_NO","NGB_OLD_CONSUMER_NO","SYBASE_OLD_CONSUMER_NO",
                                 "SYBASE_TOTAL_UNIT","NGB_TOTAL_UNIT","DIFF_TOTAL_UNIT",
                                 "SYBASE_NET_BILL1","NGB_NET_BILL1","DIFF_NET_BILL1",
-                                "SYBASE_ENERGY_CHARGE","NGB_ENERGY_CHARGE","DIFF_ENERGY_CHARGE"};
+                                "SYBASE_ENERGY_CHARGE","NGB_ENERGY_CHARGE","DIFF_ENERGY_CHARGE",
+                                "SYBASE_FIXED_CHARGE","NGB_FIXED_CHARGE","DIFF_FIXED_CHARGE",
+                                "SYBASE_DUTY","NGB_DUTY","DIFF_DUTY",
+                                "SYBASE_RENT","NGB_RENT","DIFF_RENT",
+                                "SYBASE_ADJUSTMENT","NGB_ADJUSTMENT","DIFF_ADJUSTMENT",
+                                "SYBASE_SEC_DEP","NGB_SEC_DEP","DIFF_SEC_DEP",
+                                "SYBASE_SD_INT","NGB_SD_INT","DIFF_SD_INT",
+                                "SYBASE_LOCK_CREDIT","NGB_LOCK_CREDIT","DIFF_LOCK_CREDIT",
+                                "SYBASE_SUBSIDY","NGB_SUBSIDY","DIFF_SUBSIDY",
+                                "SYBASE_MONTH_BILL","NGB_MONTH_BILL","DIFF_MONTH_BILL",
+                                "SYBASE_ARREAR","NGB_ARREAR","DIFF_ARREAR"};
         csvWriter.writeNext(headerRow);
 
         int consumerMatchCount = 0;
@@ -97,10 +107,60 @@ public class BillFileComparator {
                     //Energy Charge
                     BigDecimal sybaseEnergyCharge = new BigDecimal(sybaseBillFile.getEnch());
                     BigDecimal ngbEnergyCharge = ngbBillFile.getEnergyCharge();
+
+                    //Fixed Charge
+                    BigDecimal sybaseFixedCharge = new BigDecimal(sybaseBillFile.getFxch());
+                    BigDecimal ngbFixedCharge = ngbBillFile.getFixedCharge();
+
+                    //Electricity Duty
+                    BigDecimal sybaseDuty = new BigDecimal(sybaseBillFile.getDuty());
+                    BigDecimal ngbDuty = ngbBillFile.getDuty();
+
+                    //Rent
+                    BigDecimal sybaseRent = new BigDecimal(sybaseBillFile.getRent());
+                    BigDecimal ngbRent = ngbBillFile.getRent();
+
+                    //Adjustment
+                    BigDecimal sybaseAdjustment = new BigDecimal(sybaseBillFile.getAdjmt());
+                    BigDecimal ngbAdjustment = ngbBillFile.getAdjustment();
+
+                    //Security Deposit
+                    BigDecimal sybaseSecurityDeposit = new BigDecimal(sybaseBillFile.getSecDep());
+                    BigDecimal ngbSecurityDeposit = ngbBillFile.getSecurityDeposit();
+
+                    //SD interest
+                    BigDecimal sybaseSDInterest = new BigDecimal(sybaseBillFile.getSdInt());
+                    BigDecimal ngbSDInterest = ngbBillFile.getSecurityDepositInterest();
+
+                    //Lock Credit
+                    BigDecimal sybaseLockCredit = new BigDecimal(sybaseBillFile.getLockCr());
+                    BigDecimal ngbLockCredit = ngbBillFile.getLockCredit();
+
+                    //Subsidy
+                    BigDecimal sybaseSubsidy = new BigDecimal(sybaseBillFile.getSubsidy());
+                    BigDecimal ngbSubsidy = ngbBillFile.getSubsidy();
+
+                    //Month Bill
+                    BigDecimal sybaseMonthBill = new BigDecimal(sybaseBillFile.getMonthBill());
+                    BigDecimal ngbMonthBill = ngbBillFile.getMonthBill();
+
+                    //Arrear
+                    BigDecimal sybaseArrear = new BigDecimal(sybaseBillFile.getArrs());
+                    BigDecimal ngbArrear = ngbBillFile.getArrear();
                     String[] row = {ngbBillFile.getConsumerNo(),ngbConsNo1,sybaseConsNo1,
                             sybaseBillFile.getTotUnits1(),String.valueOf(ngbBillFile.getTotUnits1()),String.valueOf(sybaseTotUnit1.subtract(ngbTotUnit1)),
                             sybaseBillFile.getNetBill1(),ngbBillFile.getNetBill1(),String.valueOf(sybaseNetBill1.subtract(ngbNetBill1)),
-                            sybaseBillFile.getEnch(),String.valueOf(ngbBillFile.getEnergyCharge()),String.valueOf(sybaseEnergyCharge.subtract(ngbEnergyCharge).setScale(4,BigDecimal.ROUND_HALF_EVEN))
+                            sybaseBillFile.getEnch(),String.valueOf(ngbBillFile.getEnergyCharge()),String.valueOf(sybaseEnergyCharge.subtract(ngbEnergyCharge).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getFxch(),String.valueOf(ngbBillFile.getFixedCharge()),String.valueOf(sybaseFixedCharge.subtract(ngbFixedCharge).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getDuty(),String.valueOf(ngbBillFile.getDuty()),String.valueOf(sybaseDuty.subtract(ngbDuty).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getRent(),String.valueOf(ngbBillFile.getRent()),String.valueOf(sybaseRent.subtract(ngbRent).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getAdjmt(),String.valueOf(ngbBillFile.getAdjustment()),String.valueOf(sybaseAdjustment.subtract(ngbAdjustment).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getSecDep(),String.valueOf(ngbBillFile.getSecurityDeposit()),String.valueOf(sybaseSecurityDeposit.subtract(ngbSecurityDeposit).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getSdInt(),String.valueOf(ngbBillFile.getSecurityDepositInterest()),String.valueOf(sybaseSDInterest.add(ngbSDInterest).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getLockCr(),String.valueOf(ngbBillFile.getLockCredit()),String.valueOf(sybaseLockCredit.subtract(ngbLockCredit).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getSubsidy(),String.valueOf(ngbBillFile.getSubsidy()),String.valueOf(sybaseSubsidy.subtract(ngbSubsidy).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getMonthBill(),String.valueOf(ngbBillFile.getMonthBill()),String.valueOf(sybaseMonthBill.subtract(ngbMonthBill).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getArrs(),String.valueOf(ngbBillFile.getArrear()),String.valueOf(sybaseArrear.subtract(ngbArrear).setScale(4,BigDecimal.ROUND_HALF_EVEN))
                     };
                     csvWriter.writeNext(row);
                 }
