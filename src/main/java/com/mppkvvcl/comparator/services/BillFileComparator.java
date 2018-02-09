@@ -3,18 +3,18 @@ package com.mppkvvcl.comparator.services;
 import com.mppkvvcl.comparator.beans.NGBBillFile;
 import com.mppkvvcl.comparator.beans.SybaseBillFile;
 import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by sumit verma on 04-02-2018.
@@ -62,19 +62,19 @@ public class BillFileComparator {
 
         //CSVWriter csvWriter = new CSVWriter(writer,CSVWriter.DEFAULT_SEPARATOR,CSVWriter.NO_QUOTE_CHARACTER,CSVWriter.DEFAULT_ESCAPE_CHARACTER,CSVWriter.DEFAULT_LINE_END);
         String[] headerRow = {"NEW_CONSUMER_NO","NGB_OLD_CONSUMER_NO","SYBASE_OLD_CONSUMER_NO",
-                                "SYBASE_TOTAL_UNIT","NGB_TOTAL_UNIT","DIFF_TOTAL_UNIT",
-                                "SYBASE_NET_BILL1","NGB_NET_BILL1","DIFF_NET_BILL1",
-                                "SYBASE_ENERGY_CHARGE","NGB_ENERGY_CHARGE","DIFF_ENERGY_CHARGE",
-                                "SYBASE_FIXED_CHARGE","NGB_FIXED_CHARGE","DIFF_FIXED_CHARGE",
-                                "SYBASE_DUTY","NGB_DUTY","DIFF_DUTY",
-                                "SYBASE_RENT","NGB_RENT","DIFF_RENT",
-                                "SYBASE_ADJUSTMENT","NGB_ADJUSTMENT","DIFF_ADJUSTMENT",
-                                "SYBASE_SEC_DEP","NGB_SEC_DEP","DIFF_SEC_DEP",
-                                "SYBASE_SD_INT","NGB_SD_INT","DIFF_SD_INT",
-                                "SYBASE_LOCK_CREDIT","NGB_LOCK_CREDIT","DIFF_LOCK_CREDIT",
-                                "SYBASE_SUBSIDY","NGB_SUBSIDY","DIFF_SUBSIDY",
-                                "SYBASE_MONTH_BILL","NGB_MONTH_BILL","DIFF_MONTH_BILL",
-                                "SYBASE_ARREAR","NGB_ARREAR","DIFF_ARREAR"};
+                "SYBASE_TOTAL_UNIT","NGB_TOTAL_UNIT","DIFF_TOTAL_UNIT",
+                "SYBASE_NET_BILL1","NGB_NET_BILL1","DIFF_NET_BILL1",
+                "SYBASE_ENERGY_CHARGE","NGB_ENERGY_CHARGE","DIFF_ENERGY_CHARGE",
+                "SYBASE_FIXED_CHARGE","NGB_FIXED_CHARGE","DIFF_FIXED_CHARGE",
+                "SYBASE_DUTY","NGB_DUTY","DIFF_DUTY",
+                "SYBASE_RENT","NGB_RENT","DIFF_RENT",
+                "SYBASE_ADJUSTMENT","NGB_ADJUSTMENT","DIFF_ADJUSTMENT",
+                "SYBASE_SEC_DEP","NGB_SEC_DEP","DIFF_SEC_DEP",
+                "SYBASE_SD_INT","NGB_SD_INT","DIFF_SD_INT",
+                "SYBASE_LOCK_CREDIT","NGB_LOCK_CREDIT","DIFF_LOCK_CREDIT",
+                "SYBASE_SUBSIDY","NGB_SUBSIDY","DIFF_SUBSIDY",
+                "SYBASE_MONTH_BILL","NGB_MONTH_BILL","DIFF_MONTH_BILL",
+                "SYBASE_ARREAR","NGB_ARREAR","DIFF_ARREAR"};
         //csvWriter.writeNext(headerRow);
         writeToFile(headerRow);
         int consumerMatchCount = 0;
@@ -186,10 +186,10 @@ public class BillFileComparator {
         if(row != null){
             try{
                 FileWriter fileWriter = new FileWriter(FILE_PATH,true);
-                    for(String data : row){
-                        fileWriter.write(data);
-                        fileWriter.write(",");
-                    }
+                for(String data : row){
+                    fileWriter.write(data);
+                    fileWriter.write(",");
+                }
                 fileWriter.write("\r\n");
                 fileWriter.close();
             }catch (IOException ioException){
