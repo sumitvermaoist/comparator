@@ -8,21 +8,20 @@ import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sumit verma on 04-02-2018.
  */
 public class BillFileComparator {
-    private static final String DOMESTIC_CSV_FILE_PATH_NGB = "C:\\Users\\SUMIT\\Downloads\\NGB_Bill_file\\NGB_Bill_file\\BillFile_DEC-2017_IGY11_ENGLISH_DOMESTIC (4).txt";
-    private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "C:\\Users\\SUMIT\\Downloads\\sybase_bill_file\\sybase_bill_file\\BNG_INGO_DL_DEC17.mats";
+    private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY11_ENGLISH_DOMESTIC (4).txt";
+    private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_INGO_DL_DEC17.mats";
     private static final String DOMESTIC_CSV_FILE_PATH_WRITE = "E:\\output.csv";
     public static void compare() throws IOException {
         final String methodName = "compare() : ";
@@ -79,22 +78,32 @@ public class BillFileComparator {
         csvWriter.writeNext(headerRow);
 
         int consumerMatchCount = 0;
+        List<Object> list = new ArrayList<>();
         for(NGBBillFile ngbBillFile : ngbBillFiles){
             String oldConsumerNo = ngbBillFile.getOldConsNo();
             String[] split = oldConsumerNo.split("-");
             String ngbConsNo1 = split[2].trim();
+            String[] row = getRow(sybaseBillFiles,ngbBillFile,ngbConsNo1);
+            if(row != null){
+                consumerMatchCount++;
+                csvWriter.writeNext(row);
+                list.add(row);
+                writeToFile(row);
+            }
+        }
+        System.out.println(methodName + "Total Count for match is " + consumerMatchCount + " Size of list " + list.size());
+    }
 
-            int count =0;
-            for(SybaseBillFile sybaseBillFile : sybaseBillFiles){
-                if(sybaseBillFile == null || count == 0){
-                    count++;
-                    //System.out.println(methodName + "For count " + count + " For " + sybaseBillFile);
-                    continue;
-                }
+    public static String [] getRow(List<SybaseBillFile> sybaseBillFiles,NGBBillFile ngbBillFile,String ngbConsNo1){
+        final String methodName = "getRow() : ";
+        System.out.println(methodName + "called");
+        int count =0;
+        for(SybaseBillFile sybaseBillFile : sybaseBillFiles){
+            if(sybaseBillFile != null && count > 0){
                 String sybaseConsNo1 = sybaseBillFile.getConsNo1().replaceFirst("^0+(?!$)", "");
                 //System.out.println(methodName + sybaseConsNo1 + " " + ngbConsNo1);
                 if(sybaseConsNo1.trim().equalsIgnoreCase(ngbConsNo1.trim())){
-                    consumerMatchCount++;
+                    //consumerMatchCount++;
                     //System.out.println(methodName + ngbBillFile.getConsumerNo() + "," + ngbConsNo1 + "," + sybaseConsNo1 + "," +"Sybase Total Unit," + sybaseBillFile.getTotUnits1() + "," + "NGB Total Unit," + ngbBillFile.getTotUnits1());
                     //Total Unit
                     BigDecimal sybaseTotUnit1 = new BigDecimal(sybaseBillFile.getTotUnits1());
@@ -162,13 +171,34 @@ public class BillFileComparator {
                             sybaseBillFile.getMonthBill(),String.valueOf(ngbBillFile.getMonthBill()),String.valueOf(sybaseMonthBill.subtract(ngbMonthBill).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getArrs(),String.valueOf(ngbBillFile.getArrear()),String.valueOf(sybaseArrear.subtract(ngbArrear).setScale(4,BigDecimal.ROUND_HALF_EVEN))
                     };
-                    csvWriter.writeNext(row);
+                    //csvWriter.writeNext(row);
+                    return row;
                 }
+            }
             count++;
+        }
+        return null;
+    }
+
+    public static final String FILE_PATH = "e:\\scan_log.txt";
+
+    public static void writeToFile(String[] row){
+        String methodName = "writeToFile() : ";
+        System.out.println(methodName + "called");
+        if(row != null){
+            try{
+                FileWriter fileWriter = new FileWriter(FILE_PATH,true);
+                    for(String data : row){
+                        fileWriter.write(data);
+                        fileWriter.write(",");
+                    }
+                fileWriter.write("\r\n");
+                fileWriter.close();
+            }catch (IOException ioException){
+                System.out.println(methodName + "IOException while creating txt file " + ioException);
+                ioException.printStackTrace();
             }
         }
-        System.out.println(methodName + "Total Count for match is " + consumerMatchCount);
-
     }
 
 }
