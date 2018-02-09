@@ -20,7 +20,7 @@ import java.util.Map;
  * Created by sumit verma on 04-02-2018.
  */
 public class BillFileComparator {
-    private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY11_ENGLISH_DOMESTIC (4).txt";
+    private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY13_ENGLISH_DOMESTIC (2).txt";
     private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_INGO_DL_DEC17.mats";
     private static final String DOMESTIC_CSV_FILE_PATH_WRITE = "E:\\output.csv";
     public static void compare() throws IOException {
@@ -58,9 +58,9 @@ public class BillFileComparator {
             System.out.println(methodName + "Total units is " + sybaseBillFiles.get(1).getTotUnits1());
         }
 
-        Writer writer = Files.newBufferedWriter(Paths.get(DOMESTIC_CSV_FILE_PATH_WRITE));
+        //Writer writer = Files.newBufferedWriter(Paths.get(DOMESTIC_CSV_FILE_PATH_WRITE));
 
-        CSVWriter csvWriter = new CSVWriter(writer,CSVWriter.DEFAULT_SEPARATOR,CSVWriter.NO_QUOTE_CHARACTER,CSVWriter.DEFAULT_ESCAPE_CHARACTER,CSVWriter.DEFAULT_LINE_END);
+        //CSVWriter csvWriter = new CSVWriter(writer,CSVWriter.DEFAULT_SEPARATOR,CSVWriter.NO_QUOTE_CHARACTER,CSVWriter.DEFAULT_ESCAPE_CHARACTER,CSVWriter.DEFAULT_LINE_END);
         String[] headerRow = {"NEW_CONSUMER_NO","NGB_OLD_CONSUMER_NO","SYBASE_OLD_CONSUMER_NO",
                                 "SYBASE_TOTAL_UNIT","NGB_TOTAL_UNIT","DIFF_TOTAL_UNIT",
                                 "SYBASE_NET_BILL1","NGB_NET_BILL1","DIFF_NET_BILL1",
@@ -75,10 +75,9 @@ public class BillFileComparator {
                                 "SYBASE_SUBSIDY","NGB_SUBSIDY","DIFF_SUBSIDY",
                                 "SYBASE_MONTH_BILL","NGB_MONTH_BILL","DIFF_MONTH_BILL",
                                 "SYBASE_ARREAR","NGB_ARREAR","DIFF_ARREAR"};
-        csvWriter.writeNext(headerRow);
-
+        //csvWriter.writeNext(headerRow);
+        writeToFile(headerRow);
         int consumerMatchCount = 0;
-        List<Object> list = new ArrayList<>();
         for(NGBBillFile ngbBillFile : ngbBillFiles){
             String oldConsumerNo = ngbBillFile.getOldConsNo();
             String[] split = oldConsumerNo.split("-");
@@ -86,12 +85,11 @@ public class BillFileComparator {
             String[] row = getRow(sybaseBillFiles,ngbBillFile,ngbConsNo1);
             if(row != null){
                 consumerMatchCount++;
-                csvWriter.writeNext(row);
-                list.add(row);
+                //csvWriter.writeNext(row);
                 writeToFile(row);
             }
         }
-        System.out.println(methodName + "Total Count for match is " + consumerMatchCount + " Size of list " + list.size());
+        System.out.println(methodName + "Total Count for match is " + consumerMatchCount);
     }
 
     public static String [] getRow(List<SybaseBillFile> sybaseBillFiles,NGBBillFile ngbBillFile,String ngbConsNo1){
@@ -180,7 +178,7 @@ public class BillFileComparator {
         return null;
     }
 
-    public static final String FILE_PATH = "e:\\scan_log.txt";
+    public static final String FILE_PATH = "e:\\DIFFERENCE.txt";
 
     public static void writeToFile(String[] row){
         String methodName = "writeToFile() : ";
