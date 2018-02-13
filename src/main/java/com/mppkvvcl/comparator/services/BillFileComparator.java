@@ -20,9 +20,9 @@ import java.util.List;
  * Created by sumit verma on 04-02-2018.
  */
 public class BillFileComparator {
-    private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY13_ENGLISH_DOMESTIC (2).txt";
+    private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY11_ENGLISH_DOMESTIC.txt";
     private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_INGO_DL_DEC17.mats";
-    private static final String DOMESTIC_CSV_FILE_PATH_WRITE = "E:\\output.csv";
+    //private static final String DOMESTIC_CSV_FILE_PATH_WRITE = "E:\\output.csv";
     public static void compare() throws IOException {
         final String methodName = "compare() : ";
 
@@ -75,6 +75,8 @@ public class BillFileComparator {
                 "SYBASE_SUBSIDY","NGB_SUBSIDY","DIFF_SUBSIDY",
                 "SYBASE_MONTH_BILL","NGB_MONTH_BILL","DIFF_MONTH_BILL",
                 "SYBASE_ARREAR","NGB_ARREAR","DIFF_ARREAR"};
+
+        FileWriter fileWriterException = new FileWriter("e:\\Exception.txt",true);
         //csvWriter.writeNext(headerRow);
         writeToFile(headerRow);
         int consumerMatchCount = 0;
@@ -82,7 +84,18 @@ public class BillFileComparator {
             String oldConsumerNo = ngbBillFile.getOldConsNo();
             String[] split = oldConsumerNo.split("-");
             String ngbConsNo1 = split[2].trim();
-            String[] row = getRow(sybaseBillFiles,ngbBillFile,ngbConsNo1);
+            String[] row = null;
+            try{
+                row = getRow(sybaseBillFiles,ngbBillFile,ngbConsNo1);
+            }catch (Exception e){
+                System.out.println(methodName + "Exception occured for " + ngbConsNo1);
+
+                fileWriterException.write("Exception occured for " + "," + ngbConsNo1);
+                fileWriterException.write("\r\n");
+
+
+            }
+
             if(row != null){
                 consumerMatchCount++;
                 //csvWriter.writeNext(row);
@@ -90,6 +103,7 @@ public class BillFileComparator {
             }
         }
         System.out.println(methodName + "Total Count for match is " + consumerMatchCount);
+        fileWriterException.close();
     }
 
     public static String [] getRow(List<SybaseBillFile> sybaseBillFiles,NGBBillFile ngbBillFile,String ngbConsNo1){
@@ -165,7 +179,7 @@ public class BillFileComparator {
                             sybaseBillFile.getSecDep(),String.valueOf(ngbBillFile.getSecurityDeposit()),String.valueOf(sybaseSecurityDeposit.subtract(ngbSecurityDeposit).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getSdInt(),String.valueOf(ngbBillFile.getSecurityDepositInterest()),String.valueOf(sybaseSDInterest.add(ngbSDInterest).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getLockCr(),String.valueOf(ngbBillFile.getLockCredit()),String.valueOf(sybaseLockCredit.subtract(ngbLockCredit).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
-                            sybaseBillFile.getSubsidy(),String.valueOf(ngbBillFile.getSubsidy()),String.valueOf(sybaseSubsidy.subtract(ngbSubsidy).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            sybaseBillFile.getSubsidy(),String.valueOf(ngbBillFile.getSubsidy()),String.valueOf(sybaseSubsidy.add(ngbSubsidy).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getMonthBill(),String.valueOf(ngbBillFile.getMonthBill()),String.valueOf(sybaseMonthBill.subtract(ngbMonthBill).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getArrs(),String.valueOf(ngbBillFile.getArrear()),String.valueOf(sybaseArrear.subtract(ngbArrear).setScale(4,BigDecimal.ROUND_HALF_EVEN))
                     };
