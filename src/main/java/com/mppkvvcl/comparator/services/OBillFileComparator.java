@@ -1,6 +1,7 @@
 package com.mppkvvcl.comparator.services;
 
 import com.mppkvvcl.comparator.beans.NGBBillFile;
+import com.mppkvvcl.comparator.beans.OSybaseBillFile;
 import com.mppkvvcl.comparator.beans.SybaseBillFile;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
@@ -16,13 +17,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-/**
- * Created by sumit verma on 04-02-2018.
- */
-public class BillFileComparator {
+public class OBillFileComparator {
     //private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY11_ENGLISH_DOMESTIC (1).txt";
-    private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY13_ENGLISH_DOMESTIC.txt";
-    private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_INGO_DL_DEC17.mats";
+    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\NDL\\BillFile_DEC-2017_IGY11_ENGLISH_OTHER THAN DOMESTIC.txt";
+    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_INGO_OT_DEC17.mats";
     //private static final String DOMESTIC_CSV_FILE_PATH_WRITE = "E:\\output.csv";
     public static void compare() throws IOException {
         final String methodName = "compare() : ";
@@ -30,7 +28,7 @@ public class BillFileComparator {
         /**
          * Reading from NGB-BILL-FILE for Domestic starts here
          */
-        Reader ngbReader = Files.newBufferedReader(Paths.get(DOMESTIC_CSV_FILE_PATH_NGB));
+        Reader ngbReader = Files.newBufferedReader(Paths.get(OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB));
         CsvToBean ngbCsvToBean = new CsvToBeanBuilder(ngbReader)
                 .withType(NGBBillFile.class)
                 .withIgnoreLeadingWhiteSpace(true)
@@ -46,13 +44,13 @@ public class BillFileComparator {
          * Reading from Sybase-Bill-File for Domestic starts here
          */
         ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
-        strategy.setType(SybaseBillFile.class);
-        String[] columns = new String[]{"divName","locCode1",	"groupNo1",	"readerNo1",	"consNo1",	"billMonth1",	"billNo1",	"billDate",	"totUnits1",	"consName1",	"addr1",	"netBill1",	"addr2",	"addr3",	"chqDate1",	"cshDate1",	"phone1",	"mobile",	"pole",	"meterNo",	"phase",	"cirName1",	"rdgDate",	"connLoad",	"loadUnit",	"rdgType",	"rdgCurr",	"rdgPrev",	"mf",	"pf",	"mtrUnits",	"assUnits",	"totUnits2",	"locName",	"locAddr1",	"ench",	"locAddr2",	"fxch",	"locPhone",	"duty",	"cess",	"rent",	"offrName",	"adjmt",	"offrPhone",	"sdInst",	"och",	"deName",	"advAmt",	"surch",	"sdInt",	"netInclSURCH",	"empRebate",	"lockCr",	"purpose",	"secDep",	"subsidy",	"billType",	"sdDue",	"monthBill",	"arrs",	"prevPymtHDR",	"surchBal",	"cashMsg1",	"netBill2",	"cashMsg2",	"cashMsg3",	"month1",	"rdgDate1",	"rdg1",	"month2",	"rdgDate2",	"rdg2",	"month3",	"rdgDate3",	"rdg3",	"month4",	"rdgDate4",	"rdg4",	"month5",	"rdgDate5",	"rdg5",	"month6",	"rdgDate6",	"rdg6",	"avg1",	"avg2",	"cirName2",	"billMsg1",	"billMsg2",	"billMsg3",	"billMsg4",	"billMsg5",	"billMsg6",	"scrnMsg",	"billMonth2",	"billNo2",	"locCode2",	"groupNo2",	"readerNo2",	"consNo2",	"consName2",	"chqDate2",	"cshDate2",	"netBill3",	"cons1",	"cons2",	"cons3",	"cons4",	"cons5",	"cons6"};
+        strategy.setType(OSybaseBillFile.class);
+        String[] columns = new String[]{"divName",	"tariff",	"locCode1",	"groupNo1",	"readerNo1",	"consNo1",	"billMonth1",	"billNo1",	"billDate",	"totUnits1",	"consName1",	"addr1",	"netBill1",	"addr2",	"addr3",	"phone1",	"mobile",	"chqDate1",	"cshDate1",	"pole",	"meterNo",	"phase",	"cirName1",	"rdgDate",	"connLoad",	"loadUnit",	"rdgType",	"contDem",	"maxDem",	"rdgCurr",	"rdgPrev",	"mf",	"pf",	"mtrUnits",	"assUnits",	"totUnits2",	"todUnits",	"locName",	"locAddr1",	"ench",	"locAddr2",	"fxch",	"locPhone",	"duty",	"cess",	"rent",	"offrName",	"adjmt",	"offrPhone",	"sdInst",	"capSch",	"deName",	"penalCh",	"dePhone",	"todSch",	"purpose",	"secDep",	"och",	"billType",	"sdDue",	"advAmt",	"sdInt",	"prevPymtHdr",	"lfRebate",	"cashMsg1",	"lockCr",	"cashMsg2",	"subsidy",	"cashMsg3",	"monthBill",	"arrs",	"netBill2",	"month1",	"rdgDate1",	"rdg1",	"surch",	"month2",	"rdgDate2",	"rdg2",	"netInclSurch1",	"month3",	"rdgDate3",	"rdg3",	"month4",	"rdgDate4",	"rdg4",	"month5",	"rdgDate5",	"rdg5",	"month6",	"rdgDate6",	"rdg6",	"avg1",	"avg2",	"cirName2",	"billMsg1",	"billMsg2",	"billMsg3",	"billMsg4",	"billMsg5",	"scrnMsg",	"billMonth2",	"billNo2",	"locCode2",	"groupNo2",	"readerNo2",	"consNo2",	"consName2",	"chqDate2",	"cshDate2",	"netBill3",	"netInclSurch2",	"cons1",	"cons2",	"cons3",	"cons4",	"cons5",	"cons6"};
         strategy.setColumnMapping(columns);
         CsvToBean csvToBean = new CsvToBean();
         //CsvToBean csvToBean1 = new CsvToBeanBuilder().withSeparator('\t').withType(SybaseBillFile.class).
-        CSVReader csvReader = new CSVReader(new FileReader(DOMESTIC_CSV_FILE_PATH_SYBASE),'\t');
-        List<SybaseBillFile> sybaseBillFiles = csvToBean.parse(strategy,csvReader);
+        CSVReader csvReader = new CSVReader(new FileReader(OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE),'\t');
+        List<OSybaseBillFile> sybaseBillFiles = csvToBean.parse(strategy,csvReader);
         //System.out.println(methodName + "Before if " + sybaseBillFiles);
         if(sybaseBillFiles != null && sybaseBillFiles.size() > 0){
             System.out.println(methodName + "Size of Sybase Bill File is " + sybaseBillFiles.size());
@@ -107,11 +105,11 @@ public class BillFileComparator {
         fileWriterException.close();
     }
 
-    public static String [] getRow(List<SybaseBillFile> sybaseBillFiles,NGBBillFile ngbBillFile,String ngbConsNo1){
+    public static String [] getRow(List<OSybaseBillFile> sybaseBillFiles,NGBBillFile ngbBillFile,String ngbConsNo1){
         final String methodName = "getRow() : ";
         System.out.println(methodName + "called");
         int count =0;
-        for(SybaseBillFile sybaseBillFile : sybaseBillFiles){
+        for(OSybaseBillFile sybaseBillFile : sybaseBillFiles){
             if(sybaseBillFile != null && count > 0){
                 String sybaseConsNo1 = sybaseBillFile.getConsNo1().replaceFirst("^0+(?!$)", "");
                 //System.out.println(methodName + sybaseConsNo1 + " " + ngbConsNo1);
@@ -133,6 +131,12 @@ public class BillFileComparator {
                     //Fixed Charge
                     BigDecimal sybaseFixedCharge = new BigDecimal(sybaseBillFile.getFxch());
                     BigDecimal ngbFixedCharge = ngbBillFile.getFixedCharge();
+
+                    //Penal Charge
+                    BigDecimal sybasePenalCharge = new BigDecimal(sybaseBillFile.getPenalCh());
+                    if(sybasePenalCharge != null && sybasePenalCharge.compareTo(BigDecimal.ZERO) > 0){
+                        sybaseFixedCharge = sybaseFixedCharge.add(sybasePenalCharge);
+                    }
 
                     //Electricity Duty
                     BigDecimal sybaseDuty = new BigDecimal(sybaseBillFile.getDuty());
