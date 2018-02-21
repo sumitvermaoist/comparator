@@ -118,6 +118,11 @@ public class OBillFileComparator {
                     //System.out.println(methodName + ngbBillFile.getConsumerNo() + "," + ngbConsNo1 + "," + sybaseConsNo1 + "," +"Sybase Total Unit," + sybaseBillFile.getTotUnits1() + "," + "NGB Total Unit," + ngbBillFile.getTotUnits1());
                     //Total Unit
                     BigDecimal sybaseTotUnit1 = new BigDecimal(sybaseBillFile.getTotUnits1());
+                    BigDecimal sybaseTodUnits = new BigDecimal(sybaseBillFile.getTodUnits());
+                    if(sybaseTodUnits.compareTo(BigDecimal.ZERO) == 0){
+                        sybaseTodUnits = sybaseTotUnit1;
+                    }
+
                     BigDecimal ngbTotUnit1 = ngbBillFile.getTotUnits1();
 
                     //Net Bill
@@ -134,8 +139,9 @@ public class OBillFileComparator {
 
                     //Penal Charge
                     BigDecimal sybasePenalCharge = new BigDecimal(sybaseBillFile.getPenalCh());
-                    if(sybasePenalCharge != null && sybasePenalCharge.compareTo(BigDecimal.ZERO) > 0){
+                    if(sybasePenalCharge != null){
                         sybaseFixedCharge = sybaseFixedCharge.add(sybasePenalCharge);
+                        System.out.println("Sybase Penal Charge " + sybasePenalCharge + " Sybase Fixed Charge " +sybaseFixedCharge);
                     }
 
                     //Electricity Duty
@@ -174,10 +180,10 @@ public class OBillFileComparator {
                     BigDecimal sybaseArrear = new BigDecimal(sybaseBillFile.getArrs());
                     BigDecimal ngbArrear = ngbBillFile.getArrear();
                     String[] row = {ngbBillFile.getConsumerNo(),ngbConsNo1,sybaseConsNo1,
-                            sybaseBillFile.getTotUnits1(),String.valueOf(ngbBillFile.getTotUnits1()),String.valueOf(sybaseTotUnit1.subtract(ngbTotUnit1)),
+                            String.valueOf(sybaseTodUnits),String.valueOf(ngbBillFile.getTotUnits1()),String.valueOf(sybaseTodUnits.subtract(ngbTotUnit1)),
                             sybaseBillFile.getNetBill1(),ngbBillFile.getNetBill1(),String.valueOf(sybaseNetBill1.subtract(ngbNetBill1)),
                             sybaseBillFile.getEnch(),String.valueOf(ngbBillFile.getEnergyCharge()),String.valueOf(sybaseEnergyCharge.subtract(ngbEnergyCharge).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
-                            sybaseBillFile.getFxch(),String.valueOf(ngbBillFile.getFixedCharge()),String.valueOf(sybaseFixedCharge.subtract(ngbFixedCharge).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
+                            String.valueOf(sybaseFixedCharge),String.valueOf(ngbBillFile.getFixedCharge()),String.valueOf(sybaseFixedCharge.subtract(ngbFixedCharge).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getDuty(),String.valueOf(ngbBillFile.getDuty()),String.valueOf(sybaseDuty.subtract(ngbDuty).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getRent(),String.valueOf(ngbBillFile.getRent()),String.valueOf(sybaseRent.subtract(ngbRent).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getAdjmt(),String.valueOf(ngbBillFile.getAdjustment()),String.valueOf(sybaseAdjustment.subtract(ngbAdjustment).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
