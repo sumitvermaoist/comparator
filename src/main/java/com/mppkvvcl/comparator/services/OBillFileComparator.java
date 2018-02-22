@@ -19,8 +19,8 @@ import java.util.List;
 
 public class OBillFileComparator {
     //private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY11_ENGLISH_DOMESTIC (1).txt";
-    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\NDL\\BillFile_DEC-2017_IGY11_ENGLISH_OTHER THAN DOMESTIC.txt";
-    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_INGO_OT_DEC17.mats";
+    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_BRR12_ENGLISH_OTHER THAN DOMESTIC.txt";
+    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_BNGR_OT_DEC17.mats";
     //private static final String DOMESTIC_CSV_FILE_PATH_WRITE = "E:\\output.csv";
     public static void compare() throws IOException {
         final String methodName = "compare() : ";
@@ -179,6 +179,10 @@ public class OBillFileComparator {
                     //Arrear
                     BigDecimal sybaseArrear = new BigDecimal(sybaseBillFile.getArrs());
                     BigDecimal ngbArrear = ngbBillFile.getArrear();
+
+                    //Advance Amount
+                    BigDecimal advanceAmount = new BigDecimal(sybaseBillFile.getAdvAmt());
+                    sybaseArrear = sybaseArrear.add(advanceAmount);
                     String[] row = {ngbBillFile.getConsumerNo(),ngbConsNo1,sybaseConsNo1,
                             String.valueOf(sybaseTodUnits),String.valueOf(ngbBillFile.getTotUnits1()),String.valueOf(sybaseTodUnits.subtract(ngbTotUnit1)),
                             sybaseBillFile.getNetBill1(),ngbBillFile.getNetBill1(),String.valueOf(sybaseNetBill1.subtract(ngbNetBill1)),
@@ -192,7 +196,7 @@ public class OBillFileComparator {
                             sybaseBillFile.getLockCr(),String.valueOf(ngbBillFile.getLockCredit()),String.valueOf(sybaseLockCredit.subtract(ngbLockCredit).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getSubsidy(),String.valueOf(ngbBillFile.getSubsidy()),String.valueOf(sybaseSubsidy.add(ngbSubsidy).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
                             sybaseBillFile.getMonthBill(),String.valueOf(ngbBillFile.getMonthBill()),String.valueOf(sybaseMonthBill.subtract(ngbMonthBill).setScale(4,BigDecimal.ROUND_HALF_EVEN)),
-                            sybaseBillFile.getArrs(),String.valueOf(ngbBillFile.getArrear()),String.valueOf(sybaseArrear.subtract(ngbArrear).setScale(4,BigDecimal.ROUND_HALF_EVEN))
+                            String.valueOf(sybaseArrear),String.valueOf(ngbBillFile.getArrear()),String.valueOf(sybaseArrear.subtract(ngbArrear).setScale(4,BigDecimal.ROUND_HALF_EVEN))
                     };
                     //csvWriter.writeNext(row);
                     return row;
