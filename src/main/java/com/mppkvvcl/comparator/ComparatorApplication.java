@@ -11,8 +11,8 @@ import java.io.IOException;
 public class ComparatorApplication {
 
 	public static void main(String[] args) throws IOException {
-		BillFileComparator.compare();
+		//BillFileComparator.compare();
 		//SpringApplication.run(ComparatorApplication.class, args);
-		//OBillFileComparator.compare();
+		OBillFileComparator.compare();
 	}
 }

@@ -2,42 +2,36 @@ package com.mppkvvcl.comparator.services;
 
 import com.mppkvvcl.comparator.beans.NGBBillFile;
 import com.mppkvvcl.comparator.beans.OSybaseBillFile;
-import com.mppkvvcl.comparator.beans.SybaseBillFile;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OBillFileComparator {
     //private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY11_ENGLISH_DOMESTIC (1).txt";
-    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_BRR12_ENGLISH_OTHER THAN DOMESTIC.txt";
-    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_BNGR_OT_DEC17.mats";
-    //private static final String DOMESTIC_CSV_FILE_PATH_WRITE = "E:\\output.csv";
+    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\NDL\\RNZ";
+    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_RUNJ_OT_DEC17.mats";
+
     public static void compare() throws IOException {
         final String methodName = "compare() : ";
 
         /**
          * Reading from NGB-BILL-FILE for Domestic starts here
          */
-        Reader ngbReader = Files.newBufferedReader(Paths.get(OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB));
-        CsvToBean ngbCsvToBean = new CsvToBeanBuilder(ngbReader)
-                .withType(NGBBillFile.class)
-                .withIgnoreLeadingWhiteSpace(true)
-                .build();
-        List<NGBBillFile> ngbBillFiles = ngbCsvToBean.parse();
-        if(ngbBillFiles != null && ngbBillFiles.size() > 0){
-            //System.out.println(methodName + "Consumer No is " + ngbBillFiles.get(0).getConsumerNo());
-            System.out.println(methodName + "Size of NGB Bill File is " + ngbBillFiles.size());
-            System.out.println(methodName + "Total units is " + ngbBillFiles.get(0).getTotUnits1());
+        File[] files = getFiles(OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB);
+        List<NGBBillFile> ngbBillFiles = new ArrayList<NGBBillFile>();
+        for(File file : files){
+            List<NGBBillFile> temp = getNGBBillFiles(file.getCanonicalPath());
+            if(temp != null && temp.size() > 0){
+                ngbBillFiles.addAll(temp);
+            }
         }
 
         /**
@@ -226,6 +220,28 @@ public class OBillFileComparator {
                 ioException.printStackTrace();
             }
         }
+    }
+
+    private static List<NGBBillFile> getNGBBillFiles(String path) throws IOException {
+        final String methodName = "getNGBBillFiles() : ";
+        System.out.println(methodName + "called");
+        Reader ngbReader = Files.newBufferedReader(Paths.get(path));
+        CsvToBean ngbCsvToBean = new CsvToBeanBuilder(ngbReader)
+                .withType(NGBBillFile.class)
+                .withIgnoreLeadingWhiteSpace(true)
+                .build();
+        List<NGBBillFile> ngbBillFiles = ngbCsvToBean.parse();
+        if(ngbBillFiles != null && ngbBillFiles.size() > 0){
+            System.out.println(methodName + "File " + path + " has " + ngbBillFiles.size() + "records");
+        }
+        return ngbBillFiles;
+    }
+
+    private static File[] getFiles(String folderPath) throws IOException{
+        final String methodName = "getFiles() : ";
+        System.out.println(methodName + "called");
+        File[] files = new File(folderPath).listFiles();
+        return files;
     }
 
 }
