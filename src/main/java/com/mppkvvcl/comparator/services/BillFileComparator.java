@@ -6,6 +6,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -216,6 +217,24 @@ public class BillFileComparator {
                 ioException.printStackTrace();
             }
         }
+    }
+
+    private static List<NGBBillFile> getNGBBillFiles(String path) throws IOException {
+        final String methodName = "getSybaseBillFiles() : ";
+        System.out.println(methodName + "called");
+        Reader ngbReader = Files.newBufferedReader(Paths.get(path));
+        CsvToBean ngbCsvToBean = new CsvToBeanBuilder(ngbReader)
+                .withType(NGBBillFile.class)
+                .withIgnoreLeadingWhiteSpace(true)
+                .build();
+        List<NGBBillFile> ngbBillFiles = ngbCsvToBean.parse();
+        if(ngbBillFiles != null && ngbBillFiles.size() > 0){
+            //System.out.println(methodName + "Consumer No is " + ngbBillFiles.get(0).getConsumerNo());
+            System.out.println(methodName + "File " + path + " has " + ngbBillFiles.size() + "records");
+            //System.out.println(methodName + "Size of NGB Bill File is " + ngbBillFiles.size());
+            //System.out.println(methodName + "Total units is " + ngbBillFiles.get(0).getTotUnits1());
+        }
+        return ngbBillFiles;
     }
 
 }
