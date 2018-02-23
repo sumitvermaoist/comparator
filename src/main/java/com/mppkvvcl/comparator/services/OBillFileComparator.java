@@ -26,7 +26,7 @@ public class OBillFileComparator {
          * Reading from NGB-BILL-FILE for Domestic starts here
          */
         File[] files = getFiles(OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB);
-        List<NGBBillFile> ngbBillFiles = new ArrayList<NGBBillFile>();
+        List<NGBBillFile> ngbBillFiles = new ArrayList<>();
         for(File file : files){
             List<NGBBillFile> temp = getNGBBillFiles(file.getCanonicalPath());
             if(temp != null && temp.size() > 0){
@@ -106,10 +106,8 @@ public class OBillFileComparator {
         for(OSybaseBillFile sybaseBillFile : sybaseBillFiles){
             if(sybaseBillFile != null && count > 0){
                 String sybaseConsNo1 = sybaseBillFile.getConsNo1().replaceFirst("^0+(?!$)", "");
-                //System.out.println(methodName + sybaseConsNo1 + " " + ngbConsNo1);
                 if(sybaseConsNo1.trim().equalsIgnoreCase(ngbConsNo1.trim())){
-                    //consumerMatchCount++;
-                    //System.out.println(methodName + ngbBillFile.getConsumerNo() + "," + ngbConsNo1 + "," + sybaseConsNo1 + "," +"Sybase Total Unit," + sybaseBillFile.getTotUnits1() + "," + "NGB Total Unit," + ngbBillFile.getTotUnits1());
+
                     //Total Unit
                     BigDecimal sybaseTotUnit1 = new BigDecimal(sybaseBillFile.getTotUnits1());
                     BigDecimal sybaseTodUnits = new BigDecimal(sybaseBillFile.getTodUnits());

@@ -28,7 +28,7 @@ public class BillFileComparator {
          * Reading from NGB-BILL-FILE for Domestic starts here
          */
         File[] files = getFiles(DOMESTIC_CSV_FILE_PATH_NGB);
-        List<NGBBillFile> ngbBillFiles = new ArrayList<NGBBillFile>();
+        List<NGBBillFile> ngbBillFiles = new ArrayList<>();
         for(File file : files){
             List<NGBBillFile> temp = getNGBBillFiles(file.getCanonicalPath());
             if(temp != null && temp.size() > 0){
