@@ -111,10 +111,12 @@ public class OBillFileComparator {
                     //Total Unit
                     BigDecimal sybaseTotUnit1 = new BigDecimal(sybaseBillFile.getTotUnits1());
                     BigDecimal sybaseTodUnits = new BigDecimal(sybaseBillFile.getTodUnits());
-                    if(sybaseTodUnits.compareTo(BigDecimal.ZERO) == 0){
+
+                    sybaseTodUnits = sybaseTodUnits.max(sybaseTotUnit1);
+                    /*if(sybaseTodUnits.compareTo(BigDecimal.ZERO) == 0){
                         sybaseTodUnits = sybaseTotUnit1;
                     }
-
+                    */
                     BigDecimal ngbTotUnit1 = ngbBillFile.getTotUnits1();
 
                     //Net Bill
