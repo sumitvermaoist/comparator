@@ -15,8 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OBillFileComparator {
-    //private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BillFile_DEC-2017_IGY11_ENGLISH_DOMESTIC (1).txt";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\NDL\\BRR";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\NDL\\IGY";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\NDL\\JHP";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\NDL\\KRK";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\NDL\\PRJ";
     private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\NDL\\RNZ";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_BNGR_OT_DEC17.mats";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_INGO_OT_DEC17.mats";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_JPUR_OT_DEC17.mats";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_KKHURD_OT_DEC17.mats";
+    //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_PZAR_OT_DEC17.mats";
     private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_RUNJ_OT_DEC17.mats";
 
     public static void compare() throws IOException {

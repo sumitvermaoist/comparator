@@ -18,7 +18,17 @@ import java.util.List;
  * Created by sumit verma on 04-02-2018.
  */
 public class BillFileComparator {
+    //private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\BRR";
+    //private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\IGY";
+    //private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\JHP";
+    //private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\KRK";
+    //private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\PRJ";
     private static final String DOMESTIC_CSV_FILE_PATH_NGB = "E:\\ngb\\DL\\RNZ";
+    //private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_BNGR_DL_DEC17.mats";
+    //private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_INGO_DL_DEC17.mats";
+    //private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_JPUR_DL_DEC17.mats";
+    //private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_KKHURD_DL_DEC17.mats";
+    //private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_PZAR_DL_DEC17.mats";
     private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_RUNJ_DL_DEC17.mats";
     //private static final String DOMESTIC_CSV_FILE_PATH_WRITE = "E:\\output.csv";
     public static void compare() throws IOException {
