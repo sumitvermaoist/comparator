@@ -26,7 +26,7 @@ public class OBillFileComparator {
     //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_JPUR_OT_DEC17.mats";
     //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_KKHURD_OT_DEC17.mats";
     //private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_PZAR_OT_DEC17.mats";
-    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_RUNJ_OT_DEC17.mats";
+    private static final String OTHER_THAN_DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\NDL\\BNG_RUNIJAOT_FEB18.mats";
 
     public static void compare() throws IOException {
         final String methodName = "compare() : ";
@@ -111,7 +111,7 @@ public class OBillFileComparator {
     public static String [] getRow(List<OSybaseBillFile> sybaseBillFiles,NGBBillFile ngbBillFile,String ngbConsNo1){
         final String methodName = "getRow() : ";
         System.out.println(methodName + "called");
-        int count =0;
+        int count = 0;
         for(OSybaseBillFile sybaseBillFile : sybaseBillFiles){
             if(sybaseBillFile != null && count > 0){
                 String sybaseConsNo1 = sybaseBillFile.getConsNo1().replaceFirst("^0+(?!$)", "");

@@ -29,7 +29,7 @@ public class BillFileComparator {
     //private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_JPUR_DL_DEC17.mats";
     //private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_KKHURD_DL_DEC17.mats";
     //private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_PZAR_DL_DEC17.mats";
-    private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_RUNJ_DL_DEC17.mats";
+    private static final String DOMESTIC_CSV_FILE_PATH_SYBASE = "E:\\sybase\\DL\\BNG_RUNIJADL_FEB18.mats";
     //private static final String DOMESTIC_CSV_FILE_PATH_WRITE = "E:\\output.csv";
     public static void compare() throws IOException {
         final String methodName = "compare() : ";
